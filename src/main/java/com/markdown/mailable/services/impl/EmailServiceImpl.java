@@ -37,19 +37,18 @@ public class EmailServiceImpl implements EmailService {
             Context context = new Context();
             Map<String, Object> model = new HashMap<>();
             model.put("name", "Developer!");
-            model.put("location", "United States");
+            model.put("location", "Vietnam");
             model.put("sign", "Java Developer");
 
 
             context.setVariables(model);
             String html = templateEngine.process("mail", context);
-
-            String temmplate = CssInliner.inlineCss(ResourceUtils.getFile("classpath:templates/theme/default.css"),
-                    ResourceUtils.getFile("classpath:templates/mail.html"));
+            String template = CssInliner.inlineCss(ResourceUtils.getFile("classpath:templates/theme/default.css"),
+                    html);
 
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(temmplate, true);
+            helper.setText(template, true);
             emailSender.send(message);
         } catch (MessagingException e) {
             log.error(e.getMessage(), e);
